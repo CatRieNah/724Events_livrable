@@ -13,7 +13,9 @@ import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  const {last} = useData()
+  const {data} = useData();
+  // Le premier évènement récent
+  const last = data?.events.sort((evtA,evtB) => new Date(evtB.date)- new Date(evtA.date))[0]
   return <>
     <header>
       <Menu />
@@ -116,9 +118,10 @@ const Page = () => {
     <footer className="row">
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
+        {/* Ajout des valeurs par défaut pour éviter que imageSrc et title soient indéfini */}
         <EventCard
-          imageSrc={last?.cover}
-          title={last?.title}
+          imageSrc={last?.cover || "public/images/evangeline-shaw-nwLTVwb7DbU-unsplash1.png"}
+          title={last?.title || "Evènement non disponible"}
           date={new Date(last?.date)}
           small
           label="boom"
